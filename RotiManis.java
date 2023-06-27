@@ -4,61 +4,69 @@
  * and open the template in the editor.
  */
 
+//membuat perhitungan berat filling, harga filling, berat topping, harga topping
+package varian;
+// import interfaces
+import interfaces.Filling;
+import interfaces.Topping;
+
 /**
  *
  * @author MUHAMMADJULKARNAIN
  */
-class RotiManis {
-    private String rasa;
-    private String topping;
+//extend dari kelas Roti manis
+public class RotiManisVarian2 extends kelas.RotiManis implements Filling, Topping{
+    int beratRedBean=10;
+    double beratRedBeanPSN;
 
-    public RotiManis(String rasa, String topping) {
-        this.rasa = rasa;
-        this.topping = topping;
-    }
+    int beratVanilla=5;
+    double beratVanillaPSN;
+    
+    int beratCoklatTopping;
+    double beratCoklatToppingPSN;
+    
 
-    public void panggang() {
-        System.out.println("Roti sedang dipanggang...");
-    }
-
-    public void tambahkanTopping() {
-        System.out.println("Menambahkan topping " + topping + " ke roti...");
-    }
-
-    public void sajikan() {
-        System.out.println("Roti " + rasa + " dengan topping " + topping + " siap disajikan!");
-    }
-}
-
-class RotiManisV2 extends RotiManis {
-    private String isian;
-
-    public RotiManisV2(String rasa, String topping, String isian) {
-        super(rasa, topping);
-        this.isian = isian;
-    }
-
-    public void tambahkanIsian() {
-        System.out.println("Menambahkan isian " + isian + " ke dalam roti...");
+    @Override
+    public void hitungBeratFilling() {
+        this.beratRedBeanPSN=this.beratRedBean*totalPesanan;
+        
+        System.out.println("Berat Filling Red Bean: "+beratRedBeanPSN+" gr");
     }
 
     @Override
-    public void sajikan() {
-        System.out.println("Roti " + rasa + " dengan isian " + isian + ", topping " + topping + " siap disajikan!");
+    public double hitungHargaFilling() {
+        double hargaRedBean=(31000/250)*beratRedBeanPSN;  
+        double hargaFilling=hargaRedBean;
+        return hargaFilling;
     }
-}
 
-public class Main {
-    public static void main(String[] args) {
-        RotiManisV2 roti1 = new RotiManisV2("Coklat", "Keju", "Selai Kacang");
-        roti1.panggang();
-        roti1.tambahkanTopping();
-        roti1.tambahkanIsian();
-        roti1.sajikan();
-
-        RotiManis roti2 = new RotiManis("Stroberi", "Coklat");
-        roti2.panggang();
-        roti2.tambahkanTopping();
-        roti2.sajikan();
+    @Override
+    public void hitungBeratTopping() {
+        this.beratCoklatToppingPSN=this.beratCoklatTopping*totalPesanan;
+        
+        System.out.println("Berat Topping Coklat: "+beratCoklatToppingPSN+" gr");
     }
+
+    @Override
+    public double hitungHargaTopping() {
+        double hargaCoklatTopping=(29000/500)*beratCoklatToppingPSN;    
+        return hargaCoklatTopping;
+    }
+    
+     public void tampilkan(){
+        System.out.println("Roti Manis Varian 1");
+        System.out.println("Jumlah: "+totalPesanan+" pcs \n");
+        hitungBeratBahan();
+        hitungBeratFilling();
+        hitungBeratTopping();
+        System.out.println("-------------------");
+        System.out.println("Harga Bahan: Rp"+hitungHargaBahan());
+        System.out.println("Harga Filling: Rp"+hitungHargaFilling());
+        System.out.println("Harga Topping: Rp"+hitungHargaTopping());
+        
+        double hargaJual= hitungHargaBahan()+hitungHargaFilling()+hitungHargaTopping()+((hitungHargaBahan()+hitungHargaFilling()+hitungHargaTopping())*(50/100));
+        System.out.println("Harga Jual Per pcs: Rp"+hargaJual/totalPesanan);
+        System.out.println("\n \n");
+    }
+    
 }
